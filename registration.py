@@ -71,6 +71,50 @@ class TestLogin(unittest.TestCase):
         response_data = driver.find_element(By.CLASS_NAME,"chakra-alert").text
         # print(response_data)
         self.assertIn('"email" is not allowed to be empty', response_data)
+    
+    def test_registration_with_empty_password(self): # Test case registration with empty password
+        # steps
+        driver = self.driver #buka web browser
+        driver.get("https://kasirdemo.belajarqa.com/") # buka situs
+        time.sleep(3)
+        driver.find_element(By.LINK_TEXT,"ingin mencoba, daftar ?").click()
+        time.sleep(1)
+        driver.find_element(By.ID,"name").send_keys("Toko Serbu") # isi nama toko
+        time.sleep(1)
+        driver.find_element(By.ID,"email").send_keys("serbu@gmail.com") # isi email
+        time.sleep(1)
+        driver.find_element(By.ID,"password").send_keys("") # isi password
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//button[text()="daftar"]').click() # klik daftar
+        time.sleep(5)
+
+        # validasi
+        response_data = driver.find_element(By.CLASS_NAME,"chakra-alert").text
+        # print(response_data)
+        self.assertIn('"password" is not allowed to be empty', response_data)
+
+    def test_registration_with_invalid_email (self): # Test case registration with invalid email
+        # steps
+        driver = self.driver #buka web browser
+        driver.get("https://kasirdemo.belajarqa.com/") # buka situs
+        time.sleep(3)
+        driver.find_element(By.LINK_TEXT,"ingin mencoba, daftar ?").click()
+        time.sleep(1)
+        driver.find_element(By.ID,"name").send_keys("Toko Serbu") # isi nama toko
+        time.sleep(1)
+        driver.find_element(By.ID,"email").send_keys("serbugmail.com") # isi email
+        time.sleep(1)
+        driver.find_element(By.ID,"password").send_keys("") # isi password
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//button[text()="daftar"]').click() # klik daftar
+        time.sleep(5)
+
+        # validasi
+        response_data = driver.find_element(By.CLASS_NAME,"chakra-alert").text
+        # print(response_data)
+        self.assertIn('"email" must be a valid email', response_data)
+
+        
 
     def tearDown(self):
         self.driver.close()
